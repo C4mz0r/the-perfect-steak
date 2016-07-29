@@ -85,12 +85,14 @@ function SteakScheduler() {
 
 }
 
-
+// Add a notification message to the HTML notifications view
 var notify = function(message) {
   $("#notifications").append("<p>" + message + "<button>Got it!</button></p>");
-  // refresh handlers
+  // refresh handlers - TODO:  inefficient, find better way
   $("#notifications p button").click(function(){
-    $(this).parent().css("text-decoration", "line-through");
+    $(this).parent().addClass("completed");
+    $(this).attr('disabled', true);
+    $(this).parent().animate({opacity: 0}, 1000, function() {$(this).hide();});
   });
 
 };
