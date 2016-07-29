@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>The Perfect Steak</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="steak.js"></script>
+</head>
+<body>
+    <label>Name:</label>
+    <input id="eater" type="text"></input>
+    <label>Steak Preference:</label>
+    <select id="preference">
+        <option value="rare">Rare</option>
+        <option value="mediumRare">Medium Rare</option>
+        <option value="medium">Medium</option>
+        <option value="mediumWell">Medium Well</option>
+        <option value="well">Well</option>
+    </select>
+    <button id="buttonAdd">Place Order!</button>
+    <div id="confirmedOrders">
+        <h2>Orders:</h2>
+        <ul></ul>
+    </div>
+    <div id="notifications">
+        <h2>Notifications:</h2>
+        <ul></ul>
+    </div>
+    <button id="startCooking">Start Cooking!</button>
+</body>
+</html>
