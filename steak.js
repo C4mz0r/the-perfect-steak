@@ -5,12 +5,14 @@
 /*globals $:false */
 "use strict";
 
+// Multiplier for cooking times so that cooking times can be represented in minutes
+var timeMultiplier = 1000; //60 * 1000;
+
 var cookingTimes = {
-  rare: {description: 'rare', firstSide: 4000, secondSide: 2000},
-  mediumRare: {description: 'medium rare', firstSide: 8000, secondSide: 4000},
-  medium: {description: 'medium rare', firstSide: 12000, secondSide: 6000},
-  mediumWell: {description: 'medium well', firstSide: 16000, secondSide: 8000},
-  well: {description: 'well', firstSide: 20000, secondSide: 10000}
+  rare: {description: 'rare', firstSide: 5 * timeMultiplier, secondSide: 3 * timeMultiplier},
+  mediumRare: {description: 'medium rare', firstSide: 5 * timeMultiplier, secondSide: 4 * timeMultiplier},
+  medium: {description: 'medium rare', firstSide: 6 * timeMultiplier, secondSide: 4 * timeMultiplier},
+  well: {description: 'well', firstSide: 8 * timeMultiplier, secondSide: 6 * timeMultiplier}
 };
 
 function Steak(how, who) {
@@ -18,6 +20,7 @@ function Steak(how, who) {
   this.firstSide = how.firstSide;
   this.secondSide = how.secondSide;
   this.totalTime = this.firstSide + this.secondSide;
+  this.notifications = [];
   this.eater = who;
   console.log(" you want a " + how.description + ' steak so cook it ' + this.firstSide +
       ' and then flip for ' + this.secondSide)
@@ -28,9 +31,14 @@ function Steak(how, who) {
  */
 function SteakScheduler() {
   this.steaks = [];
+  /*
   this.push =  function(how, who) {
     this.steaks.push(new Steak(how, who));
   };
+  */
+  this.push = function(steak) {
+    this.steaks.push(steak);
+  }
 
   // Determine when to put on and flip each steak so that all steaks
   // are ready at the same time.
@@ -59,6 +67,7 @@ function SteakScheduler() {
   var putOnSteak = function(self, index) {
     console.log(self.steaks[index].eater + "'s steak " + index + ' was put on the grill!');
     var message = 'Put ' + self.steaks[index].eater + "'s steak on the grill";
+    self.steaks[index].notifications.push('PUT');
     notify(message);
     setTimeout(function() {
       flipSteak(self, index);
@@ -69,6 +78,7 @@ function SteakScheduler() {
   var flipSteak = function(self, index) {
     console.log(self.steaks[index].eater + "'s steak " + index + ' needs to be flipped!');
     var message = 'Flip ' + self.steaks[index].eater + "'s steak now";
+    self.steaks[index].notifications.push('FLIP');
     notify(message);
     setTimeout(function() {
       removeSteak(self, index);
@@ -80,6 +90,7 @@ function SteakScheduler() {
   var removeSteak = function(self, index) {
     console.log(self.steaks[index].eater + "'s steak " + index + ' needs to be REMOVED!');
     var message = 'Remove ' + self.steaks[index].eater + "'s steak from the grill";
+    self.steaks[index].notifications.push('REMOVE');
     notify(message);
   };
 
@@ -97,9 +108,43 @@ var notify = function(message) {
 
 };
 
+/*
+ * Represent and display the steak positions on the grill
+ */
+function Grill() {
+  this.steaks = [];
+  this.putSteak = function(steak) {
+    this.steaks.push(steak);
+  };
+
+  this.render = function() {
+    console.log('am refreshing');
+    $("#grill").empty();
+    $("#grill").css('height', '300px');
+    $("#grill").css('width', '300px');
+    for(var i = 0; i < this.steaks.length; i++) {
+      var steakClass = 'steak';
+      if (this.steaks[i].notifications.length)
+        steakClass += ' alert';
+      $("#grill").append("<div class='" + steakClass + "'>"+ this.steaks[i].eater + "<br>" + this.steaks[i].notifications.toString() +"</div>");
+    }
+
+    // TODO: Figure out better way to bind to these dynamic elements
+    var self = this;
+    $(".steak").click(function(){
+      var clickedSteakIndex = $(this).index();
+      self.steaks[clickedSteakIndex].notifications.shift();
+      self.render();
+    });
+  }
+
+  // Set up a refresh loop so that the steaks will redraw with latest notifications
+  setInterval(this.render.bind(this), 2500);
+}
 
 $(function(){
   var s = new SteakScheduler();
+  var bbq = new Grill();
 
   //// Handle HTML Inputs
   $("#buttonAdd").click(function() {
@@ -107,11 +152,17 @@ $(function(){
     var preference = $("#preference").find(":selected").val();
     var preferenceText = $("#preference").find(":selected").text();
     $("#confirmedOrders ul").append("<li>" + eater + " - " + preferenceText + "</li>");
-    s.push(cookingTimes[preference], eater);
+    var steak = new Steak(cookingTimes[preference], eater);
+    s.push(steak);
+    bbq.putSteak(steak);
+    bbq.render();
   });
+
 
   $("#startCooking").click(function() {
     s.startCooking();
   });
+
+
 
 });

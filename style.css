@@ -17,3 +17,29 @@
     text-decoration: line-through;
 }
 
+#grill {
+    border: 1px solid black;
+    background-color: slategray;
+}
+
+.steak {
+    border-radius: 40px 10px 10px 10px;
+    -moz-border-radius: 40px 10px 10px 10px;
+    -webkit-border-radius: 40px 10px 10px 10px;
+    border: 3px solid white;
+    background-color: #9c0909;
+    width: 100px;
+    height: 50px;
+    padding: 10px;
+    margin: 3px;
+    float: left;
+    color: white;
+}
+
+.steak.alert {
+    -webkit-box-shadow: 0px 0px 3px 5px yellow;
+    -moz-box-shadow: 0px 0px 3px 5px yellow;
+    box-shadow: 0px 0px 3px 5px yellow;
+    font-weight: bold;
+    background-color: darkviolet;
+}
