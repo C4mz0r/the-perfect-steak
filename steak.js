@@ -8,6 +8,7 @@
 // Multiplier for cooking times so that cooking times can be represented in minutes
 var timeMultiplier = 1000; //60 * 1000;
 
+// Indicate the cooking times needed for each side of the steak in minutes (when multipiled by timeMultiplier)
 var cookingTimes = {
   rare: {description: 'rare', firstSide: 5 * timeMultiplier, secondSide: 3 * timeMultiplier},
   mediumRare: {description: 'medium rare', firstSide: 5 * timeMultiplier, secondSide: 4 * timeMultiplier},
@@ -15,6 +16,9 @@ var cookingTimes = {
   well: {description: 'well', firstSide: 8 * timeMultiplier, secondSide: 6 * timeMultiplier}
 };
 
+/*
+ * Steak constructor, indicating the state of the steak and who will eat it.
+ */
 function Steak(how, who) {
   this.description = how.description;
   this.firstSide = how.firstSide;
@@ -32,11 +36,6 @@ function Steak(how, who) {
  */
 function SteakScheduler() {
   this.steaks = [];
-  /*
-  this.push =  function(how, who) {
-    this.steaks.push(new Steak(how, who));
-  };
-  */
   this.push = function(steak) {
     this.steaks.push(steak);
   };
@@ -102,6 +101,7 @@ function Grill() {
     this.steaks.push(steak);
   };
 
+  // Draw the grill and the steaks
   this.render = function() {
     console.log('am refreshing');
     var theGrill = $("#grill");
@@ -109,23 +109,30 @@ function Grill() {
     theGrill.css('height', '300px').css('width', '300px');
     for(var i = 0; i < this.steaks.length; i++) {
       var steakClass = 'steak';
+
+      // Indicate that the steak has a pending action
       if (this.steaks[i].notifications.length) {
         steakClass += ' alert';
       }
+
+      // Indicate that the steak is not currently on the grill
       if (this.steaks[i].isPutOnGrill === false) {
         steakClass += ' notplaced'
       }
-      theGrill.append("<div class='" + steakClass + "'>"+ this.steaks[i].eater + "<br>" + this.steaks[i].notifications.toString() +"</div>");
+      theGrill.append("<div class='" + steakClass + "'>"+ this.steaks[i].eater + "<br>"
+          + this.steaks[i].notifications.toString() +"</div>");
     }
-
-    // TODO: Figure out better way to bind to these dynamic elements
-    var self = this;
-    $(".steak").click(function(){
-      var clickedSteakIndex = $(this).index();
-      self.steaks[clickedSteakIndex].notifications.shift();
-      self.render();
-    });
   };
+
+
+  // Creates a click listener that works for delegated events (e.g. steaks that get created dynamically on the grill,
+  // after the listener has already been created)
+  var self = this;
+  $("#grill").on('click', '.steak', function(){
+    var clickedSteakIndex = $(this).index();
+    self.steaks[clickedSteakIndex].notifications.shift();
+    self.render();
+  });
 
   // Set up a refresh loop so that the steaks will redraw with latest notifications
   setInterval(this.render.bind(this), 2500);
@@ -134,7 +141,7 @@ function Grill() {
 $(function(){
   var s = new SteakScheduler();
 
-  //// Handle HTML Inputs
+  // When the add button is called to confirm a steak
   $("#buttonAdd").click(function() {
     var eater = $("#eater").val();
     var preferenceSelector = $("#preference");
@@ -146,6 +153,7 @@ $(function(){
 
   });
 
+  // When the steaks have been confirmed and we are ready to grill
   $("#startCooking").click(function() {
     s.startCooking();
     var bbq = new Grill();
