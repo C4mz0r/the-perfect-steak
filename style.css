@@ -1,22 +1,3 @@
-#notifications p {
-    border: 1px solid lightskyblue;
-    background-color: dodgerblue;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
-    padding: 10px;
-    color: white;
-}
-
-#notifications p button {
-    float: right;
-}
-
-#notifications p.completed {
-    background-color: darkslategray;
-    text-decoration: line-through;
-}
-
 #grill {
     border: 1px solid black;
     background-color: slategray;

@@ -66,9 +66,7 @@ function SteakScheduler() {
   // Put the indicated steak on the grill
   var putOnSteak = function(self, index) {
     console.log(self.steaks[index].eater + "'s steak " + index + ' was put on the grill!');
-    var message = 'Put ' + self.steaks[index].eater + "'s steak on the grill";
     self.steaks[index].notifications.push('PUT');
-    notify(message);
     setTimeout(function() {
       flipSteak(self, index);
     }, self.steaks[index].firstSide);
@@ -77,9 +75,7 @@ function SteakScheduler() {
   // Flip the indicated steak
   var flipSteak = function(self, index) {
     console.log(self.steaks[index].eater + "'s steak " + index + ' needs to be flipped!');
-    var message = 'Flip ' + self.steaks[index].eater + "'s steak now";
     self.steaks[index].notifications.push('FLIP');
-    notify(message);
     setTimeout(function() {
       removeSteak(self, index);
     }, self.steaks[index].secondSide);
@@ -89,24 +85,10 @@ function SteakScheduler() {
   // If things work well, then all steaks should be indicated for removal at the same time
   var removeSteak = function(self, index) {
     console.log(self.steaks[index].eater + "'s steak " + index + ' needs to be REMOVED!');
-    var message = 'Remove ' + self.steaks[index].eater + "'s steak from the grill";
     self.steaks[index].notifications.push('REMOVE');
-    notify(message);
   };
 
 }
-
-// Add a notification message to the HTML notifications view
-var notify = function(message) {
-  $("#notifications").append("<p>" + message + "<button>Got it!</button></p>");
-  // refresh handlers - TODO:  inefficient, find better way
-  $("#notifications p button").click(function(){
-    $(this).parent().addClass("completed");
-    $(this).attr('disabled', true);
-    $(this).parent().animate({opacity: 0}, 1000, function() {$(this).hide();});
-  });
-
-};
 
 /*
  * Represent and display the steak positions on the grill
@@ -120,8 +102,7 @@ function Grill() {
   this.render = function() {
     console.log('am refreshing');
     $("#grill").empty();
-    $("#grill").css('height', '300px');
-    $("#grill").css('width', '300px');
+    $("#grill").css('height', '300px').css('width', '300px');
     for(var i = 0; i < this.steaks.length; i++) {
       var steakClass = 'steak';
       if (this.steaks[i].notifications.length)
