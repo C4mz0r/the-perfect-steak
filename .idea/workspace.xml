@@ -2,9 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="56541a0d-f1d2-4321-9e8f-adcdca59c4fd" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/steak.js" afterPath="$PROJECT_DIR$/steak.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/style.css" afterPath="$PROJECT_DIR$/style.css" />
     </list>
     <ignored path="the-perfect-steak.iws" />
@@ -38,21 +35,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="steak.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="steak.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/steak.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="144">
-              <caret line="94" column="3" selection-start-line="94" selection-start-column="3" selection-end-line="94" selection-end-column="3" />
+            <state relative-caret-position="-176">
+              <caret line="100" column="0" selection-start-line="100" selection-start-column="0" selection-end-line="100" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="style.css" pinned="false" current-in-tab="true">
+      <file leaf-file-name="style.css" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/style.css">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <caret line="0" column="8" selection-start-line="0" selection-start-column="8" selection-end-line="9" selection-end-column="1" />
               <folding />
             </state>
           </provider>
@@ -233,12 +230,12 @@
       <updated>1469761528771</updated>
       <workItem from="1469761529946" duration="14752000" />
       <workItem from="1469804161870" duration="9593000" />
-      <workItem from="1469850870890" duration="449000" />
+      <workItem from="1469850870890" duration="758000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="24794000" />
+    <option name="totallyTimeSpent" value="25103000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="51" y="-5" width="1869" height="1021" extended-state="6" />
@@ -343,18 +340,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/steak.js">
+    <entry file="file://$PROJECT_DIR$/style.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="94" column="3" selection-start-line="94" selection-start-column="3" selection-end-line="94" selection-end-column="3" />
+        <state relative-caret-position="0">
+          <caret line="0" column="8" selection-start-line="0" selection-start-column="8" selection-end-line="9" selection-end-column="1" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/style.css">
+    <entry file="file://$PROJECT_DIR$/steak.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="-176">
+          <caret line="100" column="0" selection-start-line="100" selection-start-column="0" selection-end-line="100" selection-end-column="0" />
           <folding />
         </state>
       </provider>

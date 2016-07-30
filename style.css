@@ -1,6 +1,12 @@
 #grill {
     border: 1px solid black;
-    background-color: slategray;
+    background: repeating-linear-gradient(
+            to right,
+            slategray,
+            slategray 10px,
+            dimgray 10px,
+            dimgray 20px
+    );
 }
 
 .steak {
