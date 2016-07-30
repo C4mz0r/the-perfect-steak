@@ -21,6 +21,7 @@ function Steak(how, who) {
   this.secondSide = how.secondSide;
   this.totalTime = this.firstSide + this.secondSide;
   this.notifications = [];
+  this.isPutOnGrill = false;
   this.eater = who;
   console.log(" you want a " + how.description + ' steak so cook it ' + this.firstSide +
       ' and then flip for ' + this.secondSide)
@@ -38,7 +39,7 @@ function SteakScheduler() {
   */
   this.push = function(steak) {
     this.steaks.push(steak);
-  }
+  };
 
   // Determine when to put on and flip each steak so that all steaks
   // are ready at the same time.
@@ -67,6 +68,7 @@ function SteakScheduler() {
   var putOnSteak = function(self, index) {
     console.log(self.steaks[index].eater + "'s steak " + index + ' was put on the grill!');
     self.steaks[index].notifications.push('PUT');
+    self.steaks[index].isPutOnGrill = true;
     setTimeout(function() {
       flipSteak(self, index);
     }, self.steaks[index].firstSide);
@@ -86,6 +88,7 @@ function SteakScheduler() {
   var removeSteak = function(self, index) {
     console.log(self.steaks[index].eater + "'s steak " + index + ' needs to be REMOVED!');
     self.steaks[index].notifications.push('REMOVE');
+    self.steaks[index].isPutOnGrill = false;
   };
 
 }
@@ -101,13 +104,18 @@ function Grill() {
 
   this.render = function() {
     console.log('am refreshing');
-    $("#grill").empty();
-    $("#grill").css('height', '300px').css('width', '300px');
+    var theGrill = $("#grill");
+    theGrill.empty();
+    theGrill.css('height', '300px').css('width', '300px');
     for(var i = 0; i < this.steaks.length; i++) {
       var steakClass = 'steak';
-      if (this.steaks[i].notifications.length)
+      if (this.steaks[i].notifications.length) {
         steakClass += ' alert';
-      $("#grill").append("<div class='" + steakClass + "'>"+ this.steaks[i].eater + "<br>" + this.steaks[i].notifications.toString() +"</div>");
+      }
+      if (this.steaks[i].isPutOnGrill === false) {
+        steakClass += ' notplaced'
+      }
+      theGrill.append("<div class='" + steakClass + "'>"+ this.steaks[i].eater + "<br>" + this.steaks[i].notifications.toString() +"</div>");
     }
 
     // TODO: Figure out better way to bind to these dynamic elements
@@ -117,7 +125,7 @@ function Grill() {
       self.steaks[clickedSteakIndex].notifications.shift();
       self.render();
     });
-  }
+  };
 
   // Set up a refresh loop so that the steaks will redraw with latest notifications
   setInterval(this.render.bind(this), 2500);
@@ -125,23 +133,26 @@ function Grill() {
 
 $(function(){
   var s = new SteakScheduler();
-  var bbq = new Grill();
 
   //// Handle HTML Inputs
   $("#buttonAdd").click(function() {
     var eater = $("#eater").val();
-    var preference = $("#preference").find(":selected").val();
-    var preferenceText = $("#preference").find(":selected").text();
-    $("#confirmedOrders ul").append("<li>" + eater + " - " + preferenceText + "</li>");
+    var preferenceSelector = $("#preference");
+    var preference = preferenceSelector.find(":selected").val();
+    var preferenceText = preferenceSelector.find(":selected").text();
+    $("#confirmedOrders > ul").append("<li>" + eater + " - " + preferenceText + "</li>");
     var steak = new Steak(cookingTimes[preference], eater);
     s.push(steak);
-    bbq.putSteak(steak);
-    bbq.render();
-  });
 
+  });
 
   $("#startCooking").click(function() {
     s.startCooking();
+    var bbq = new Grill();
+    for(var i=0; i < s.steaks.length; i++) {
+      bbq.putSteak(s.steaks[i]);
+    }
+    bbq.render();
   });
 
 

@@ -23,6 +23,11 @@
     color: white;
 }
 
+.steak.notplaced {
+    border: 3px dashed darkgray;
+    background-color: dimgray;
+}
+
 .steak.alert {
     -webkit-box-shadow: 0px 0px 3px 5px yellow;
     -moz-box-shadow: 0px 0px 3px 5px yellow;
